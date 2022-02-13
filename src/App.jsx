@@ -3,9 +3,9 @@ import "./styles.css";
 
 export const App = () => {
   const [todoText, setTodoText] = useState([""]);
-  const [incompleteTodos, setIncompleteTodos] = useState(["aaa", "iii"]);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
 
-  const [completeTodos, setCompleteTodos] = useState(["uuu"]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   const onChengeTodoText = (e) => setTodoText(e.target.value);
 
@@ -30,6 +30,16 @@ export const App = () => {
 
     setIncompleteTodos(newIncompleteTodos);
     setCompleteTodos(newCompleteTodos);
+  };
+
+  const onClickBack = (i) => {
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(i, 1);
+
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[i]];
+
+    setCompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
 
   return (
@@ -59,11 +69,11 @@ export const App = () => {
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          {completeTodos.map((todo) => {
+          {completeTodos.map((todo, i) => {
             return (
               <div key={todo} className="list-row">
                 <li>{todo}</li>
-                <button>戻す</button>
+                <button onClick={() => onClickBack(i)}>戻す</button>
               </div>
             );
           })}
